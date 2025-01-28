@@ -13,11 +13,6 @@ test.describe("GitHub Repository Finder", () => {
   });
 
   test("shows loading states and updates UI during search", async ({ page }) => {
-    await page.route("**/*", async (route) => {
-      await new Promise((f) => setTimeout(f, 100));
-      await route.continue();
-    });
-
     const searchInput = page.getByRole("searchbox");
     const searchButton = page.getByRole("button", { name: "Search" });
 
@@ -59,5 +54,42 @@ test.describe("GitHub Repository Finder", () => {
     await page.goto("/?q=react&sort=stars&order=desc&page=101");
 
     await expect(page.getByText("422 Unprocessable Entity")).toBeVisible();
+  });
+
+  test("handles pagination correctly", async ({ page }) => {
+    await page.getByRole("searchbox").fill("javascript");
+    await page.getByRole("button", { name: /search/i }).click();
+
+    await expect(page.getByRole("button", { name: /previous/i })).toBeDisabled();
+    await expect(page.getByRole("button", { name: /next/i })).toBeEnabled();
+
+    await page.getByRole("button", { name: /next/i }).click();
+    await expect(page.getByText("Page 2")).toBeVisible();
+    await expect(page.getByRole("button", { name: /previous/i })).toBeEnabled();
+    await expect(page).toHaveURL(/.*page=2.*/);
+  });
+
+  test("sorts results by stars", async ({ page }) => {
+    await page.getByRole("searchbox").fill("typescript");
+    await page.getByRole("button", { name: /search/i }).click();
+
+    await page.getByRole("button", { name: /sort by stars/i }).click();
+    await expect(page).toHaveURL(/.*sort=stars.*/);
+    await expect(page).toHaveURL(/.*order=desc.*/);
+
+    await page.getByRole("button", { name: /sort by stars/i }).click();
+    await expect(page).toHaveURL(/.*order=asc.*/);
+  });
+
+  test("preserves search parameters in URL", async ({ page }) => {
+    await page.goto("/?q=vue&sort=stars&order=desc");
+    await expect(page.getByRole("searchbox")).toHaveValue("vue");
+
+    await page.getByRole("button", { name: /next/i }).click();
+
+    await expect(page).toHaveURL(/.*q=vue.*/);
+    await expect(page).toHaveURL(/.*sort=stars.*/);
+    await expect(page).toHaveURL(/.*order=desc.*/);
+    await expect(page).toHaveURL(/.*page=2.*/);
   });
 });
