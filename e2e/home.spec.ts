@@ -53,4 +53,10 @@ test.describe("GitHub Repository Finder", () => {
     await expect(page.getByRole("status").and(page.getByText("Sorry, no maches!"))).toBeVisible();
     await expect(page.getByRole("table")).not.toBeVisible();
   });
+
+  test("display error message when API request fails", async ({ page }) => {
+    await page.goto("/?q=react&sort=stars&order=desc&page=101");
+
+    await expect(page.getByText("422 Unprocessable Entity")).toBeVisible();
+  });
 });
