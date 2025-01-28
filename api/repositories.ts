@@ -22,6 +22,8 @@ interface RepositoriesResponse {
 type SortOption = "stars";
 type OrderOption = "desc" | "asc";
 
+const GITHUB_TOKEN = process.env.API_TOKEN;
+
 export const getRepositories = unstable_cache(
   async (searchTerm: string, page: number = 1, sort?: SortOption, order: OrderOption = "desc") => {
     try {
@@ -36,11 +38,17 @@ export const getRepositories = unstable_cache(
         params.append("order", order);
       }
 
+      const headers: HeadersInit = {
+        Accept: "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+      };
+
+      if (GITHUB_TOKEN) {
+        headers["Authorization"] = `Bearer ${GITHUB_TOKEN}`;
+      }
+
       const response = await fetch(`https://api.github.com/search/repositories?${params.toString()}`, {
-        headers: {
-          Accept: "application/vnd.github+json",
-          "X-GitHub-Api-Version": "2022-11-28",
-        },
+        headers,
       });
 
       if (!response.ok) {
