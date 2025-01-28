@@ -1,6 +1,17 @@
+import { getRepositories } from "api/repositories";
+
 import { SearchForm } from "components/SearchForm";
 
-export default function HomePage() {
+interface SearchParams {
+  q?: string;
+}
+
+export default async function HomePage({ searchParams }: { searchParams: Promise<SearchParams> }) {
+  const params = await searchParams;
+  const query = params.q || "";
+
+  const { total_count } = await getRepositories(query);
+
   return (
     <main className="container mx-auto px-4 py-8">
       <header className="mx-auto max-w-2xl text-center">
@@ -12,6 +23,9 @@ export default function HomePage() {
       <section className="mt-8">
         <SearchForm />
       </section>
+      <p className="mt-8 mb-4 text-center text-sm text-gray-500" role="status">
+        Found {total_count} repositories
+      </p>
     </main>
   );
 }
