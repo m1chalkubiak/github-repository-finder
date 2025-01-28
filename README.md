@@ -72,9 +72,50 @@ While real-time search can provide better UX for small datasets (e.g., documenta
 **Current Implementation Benefits:**
 
 - Clear user interaction model
-- Efficient API usage
 - Better handling of rate limits
-- Reduced server load
 - More predictable behavior
 
 This implementation strikes a balance between user experience and system efficiency, particularly important when dealing with rate-limited APIs.
+
+### Data Display & Pagination Implementation
+
+#### Table Implementation Constraints
+
+I implemented the repository table with API-imposed limitations in mind:
+
+- **Limited Sorting Options** - GitHub's Search API only allows sorting by stars, making it impossible to implement sorting by other columns
+
+#### Pagination Decisions
+
+I implemented basic pagination due to several factors:
+
+1.  **Reasoning Behind Simple Pagination**
+
+- Search Results Nature
+- Users typically focus on the most relevant results, which appear first
+- GitHub's search algorithm already prioritizes results by relevance
+- Most users rarely explore beyond the first few pages
+
+2. **API Limitations**
+
+   - GitHub API limits results to 100 pages
+
+3. **Considered Alternatives**
+
+   I considered but didn't implement:
+
+   - **Items Per Page** - While useful, most users focus on top 10 results
+   - **"Load More" Pattern** - Better UX but requires:
+     - List virtualization for performance
+     - State management for loaded items
+     - High risk of crossing API rate limits
+   - **Jump to Page** - Less useful with this specific type of results
+
+The current implementation balances:
+
+- API limitations
+- User needs
+- Performance considerations
+- Implementation complexity
+
+While more advanced pagination patterns exist, the current approach serves the primary use case - quickly finding relevant repositories among top results.
