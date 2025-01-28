@@ -1,4 +1,5 @@
 import { getRepositories } from "api/repositories";
+import { Pagination } from "components/Pagination";
 import { RepositoriesTable } from "components/RepositoriesTable";
 
 import { SearchForm } from "components/SearchForm";
@@ -18,6 +19,8 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
   const order = params.order || "desc";
 
   const { items: repositories, total_count } = await getRepositories(query, page, sort, order);
+
+  const totalPages = Math.min(Math.ceil(total_count / 10), 100);
 
   return (
     <main className="container mx-auto px-4 py-8">
@@ -45,6 +48,7 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
               Found {total_count.toLocaleString()} repositories
             </p>
             <RepositoriesTable repositories={repositories} />
+            <Pagination currentPage={page} totalPages={totalPages} />
           </>
         )}
       </section>
