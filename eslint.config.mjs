@@ -50,7 +50,6 @@ const config = typescriptEslint.config(
         },
       ],
       semi: ["error", "always"],
-      "@typescript-eslint/semi": ["error", "always"],
       "sort-imports": [
         "error",
         {
