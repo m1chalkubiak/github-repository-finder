@@ -6,6 +6,7 @@ test.describe("GitHub Repository Finder", () => {
   });
 
   test("shows initial empty state correctly", async ({ page }) => {
+    await expect(page).toHaveTitle("GitHub Repository Finder");
     await expect(page.getByRole("heading", { name: "GitHub Repository Finder", level: 1 })).toBeVisible();
     await expect(page.getByRole("searchbox")).toBeVisible();
     await expect(page.getByRole("button", { name: "Search" })).toBeEnabled();
