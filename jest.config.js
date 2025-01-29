@@ -10,8 +10,8 @@ const customJestConfig = {
   modulePathIgnorePatterns: ["<rootDir>/dist/"],
   testPathIgnorePatterns: ["<rootDir>/e2e"],
   moduleNameMapper: {
-    'components/(.*)': '<rootDir>/components/$1'
-  }
+    "components/(.*)": "<rootDir>/components/$1",
+  },
 };
 
 module.exports = createJestConfig(customJestConfig);
