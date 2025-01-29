@@ -92,4 +92,13 @@ test.describe("GitHub Repository Finder", () => {
     await expect(page).toHaveURL(/.*order=desc.*/);
     await expect(page).toHaveURL(/.*page=2.*/);
   });
+
+  test("reset search parameters in URL", async ({ page }) => {
+    await page.goto("/?q=vue&sort=stars&order=desc");
+    await page.getByRole("searchbox").fill("");
+
+    await page.getByRole("button", { name: /search/i }).click();
+
+    await expect(page).toHaveURL("/");
+  });
 });

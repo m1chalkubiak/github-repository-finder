@@ -15,12 +15,12 @@ export function SearchForm() {
     const formData = new FormData(event.currentTarget);
     const newSearchQuery = formData.get("search")?.toString().trim() || "";
 
-    if (!newSearchQuery || newSearchQuery === currentSearchQuery) {
+    if (newSearchQuery === currentSearchQuery) {
       return;
     }
 
     startTransition(() => {
-      router.push(`/?q=${newSearchQuery}`);
+      router.push(!newSearchQuery ? "/" : `/?q=${newSearchQuery}`);
     });
   };
 
