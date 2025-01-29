@@ -30,10 +30,28 @@ A modern web application for searching and exploring GitHub repositories. Built 
 - Node.js 20.x or later
 - pnpm 9.x or later
 
+### Project setup
+
+```bash
+pnpm i
+```
+
+Additionally You can set `env` variable with your personal access token in `.env.local` file
+
+```sh
+API_TOKEN=YOUR_GITHUB_TOKEN
+```
+
 ### Running the project
 
 ```bash
 pnpm dev
+```
+
+### Running tests
+
+```bash
+pnpm e2e:headless
 ```
 
 ## Implementation Decisions
