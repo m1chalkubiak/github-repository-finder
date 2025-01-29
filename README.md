@@ -137,3 +137,57 @@ The current implementation balances:
 - Implementation complexity
 
 While more advanced pagination patterns exist, the current approach serves the primary use case - quickly finding relevant repositories among top results.
+
+## Production Considerations & Future Improvements
+
+### Current Implementation Choices
+
+I made several deliberate decisions based on the project's scope while remaining aware of production-level requirements:
+
+#### Styling Approach
+
+I chose Tailwind CSS as it is a good balance between custom styling and pre-built components.
+
+#### Internationalization
+
+In a production environment, I would strongly recommend:
+
+- Using established i18n libraries (like `react-i18next` or `next-intl`)
+- Implementing locale detection and switching
+- Setting up a translation management system
+- Implementing number and date formatting based on locale
+
+#### Image Optimization
+
+I intentionally skipped some Next.js optimizations:
+
+- No custom favicon implementation
+- No Open Graph images
+- Basic `img` tags instead of Next.js `Image` component
+
+#### Error Handling & Monitoring
+
+While the app includes basic error boundaries and API error handling, a production version would benefit from:
+
+- Integration with error tracking services (e.g., Sentry)
+- More detailed error logging and categorization
+- User feedback collection on errors
+- Performance monitoring
+- Analytics integration
+
+#### Security Enhancements
+
+Additional security measures for production:
+
+- Input sanitization
+- Security headers (using Next.js config)
+
+### Why These Were Not Implemented
+
+These features were omitted because:
+
+1. They would add complexity without significant benefit for this demo
+2. They would distract from the core functionality
+3. They would increase the initial setup time
+4. They would make the codebase less approachable for review
+5. They are typically project-specific and depend on business requirements
