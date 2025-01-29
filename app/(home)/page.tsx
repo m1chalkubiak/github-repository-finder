@@ -33,11 +33,11 @@ export default async function Home({ searchParams }: { searchParams: Promise<Sea
 
       {total_count > 0 && (
         <>
-          <p className="mt-8 mb-4 text-center text-sm text-gray-500" role="status">
+          <p className="mt-8 mb-4 text-center text-sm text-gray-500 dark:text-gray-200" role="status">
             Found {total_count.toLocaleString()} repositories
           </p>
           <RepositoriesTable repositories={repositories} />
-          <Pagination currentPage={page} totalPages={totalPages} />
+          {total_count > 10 && <Pagination currentPage={page} totalPages={totalPages} />}
         </>
       )}
     </>

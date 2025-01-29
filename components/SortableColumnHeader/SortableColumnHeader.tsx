@@ -29,7 +29,7 @@ export function SortableColumnHeader({ column, children }: SortableColumnHeaderP
   return (
     <button
       onClick={handleSort}
-      className="inline-flex items-center gap-1 hover:cursor-pointer hover:text-gray-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none"
+      className="inline-flex items-center gap-1 hover:cursor-pointer hover:text-gray-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none dark:hover:text-gray-300"
       aria-label={getSortButtonAriaLabel()}
     >
       <span className="underline">{children}</span>

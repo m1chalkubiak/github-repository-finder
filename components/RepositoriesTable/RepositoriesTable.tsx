@@ -19,43 +19,47 @@ export function RepositoriesTable({ repositories }: RepositoriesTableProps) {
         </colgroup>
         <thead>
           <tr>
-            <th scope="col" className="px-6 py-3 text-left text-sm font-semibold text-gray-900">
+            <th scope="col" className="px-6 py-3 text-left text-sm font-semibold text-gray-900 dark:text-gray-100">
               Name
             </th>
-            <th scope="col" className="px-6 py-3 text-right text-sm font-semibold text-gray-900">
+            <th scope="col" className="px-6 py-3 text-right text-sm font-semibold text-gray-900 dark:text-gray-100">
               Owner
             </th>
-            <th scope="col" className="px-6 py-3 text-right text-sm font-semibold text-gray-900">
+            <th scope="col" className="px-6 py-3 text-right text-sm font-semibold text-gray-900 dark:text-gray-100">
               <div className="flex justify-end">
                 <SortableColumnHeader column="stars">Stars</SortableColumnHeader>
               </div>
             </th>
-            <th scope="col" className="px-6 py-3 text-right text-sm font-semibold text-gray-900">
+            <th scope="col" className="px-6 py-3 text-right text-sm font-semibold text-gray-900 dark:text-gray-100">
               Created at
             </th>
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200">
           {repositories.map((repo) => (
-            <tr key={repo.id} className="hover:bg-gray-50">
+            <tr key={repo.id} className="hover:bg-gray-50 dark:hover:bg-gray-50/10">
               <td className="truncate px-6 py-4 text-left">
                 <a
                   href={repo.html_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-600 hover:text-blue-800 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                  className="text-blue-600 hover:text-blue-800 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:text-blue-400 dark:hover:text-blue-500"
                 >
                   {repo.name}
                 </a>
               </td>
               <td className="px-6 py-4 text-right">
                 <div className="flex items-center justify-end">
-                  <span className="mr-2">{repo.owner.login}</span>
+                  <span className="mr-2 dark:text-gray-100">{repo.owner.login}</span>
                   <img src={repo.owner.avatar_url} alt="" className="h-6 w-6 rounded-full" aria-hidden="true" />
                 </div>
               </td>
-              <td className="px-6 py-4 text-right tabular-nums">{repo.stargazers_count.toLocaleString()}</td>
-              <td className="px-6 py-4 text-right">{dateFormatter.format(new Date(repo.created_at))}</td>
+              <td className="px-6 py-4 text-right tabular-nums dark:text-gray-100">
+                {repo.stargazers_count.toLocaleString()}
+              </td>
+              <td className="px-6 py-4 text-right dark:text-gray-100">
+                {dateFormatter.format(new Date(repo.created_at))}
+              </td>
             </tr>
           ))}
         </tbody>
