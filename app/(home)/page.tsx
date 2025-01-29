@@ -1,6 +1,7 @@
 import { getRepositories } from "api/repositories";
 import { Pagination } from "components/Pagination/Pagination";
-import { RepositoriesTable } from "components/RepositoriesTable/RepositoriesTable";
+
+import { RepositoriesTable } from "./components/RepositoriesTable";
 
 interface SearchParams {
   q?: string;

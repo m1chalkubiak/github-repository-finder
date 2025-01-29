@@ -1,4 +1,5 @@
 import { SortableColumnHeader } from "components/SortableColumnHeader";
+
 import { RepositoriesTableProps } from "./RepositoriesTable.types";
 
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
