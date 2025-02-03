@@ -1,34 +1,33 @@
-"use client";
-
-import { useRouter, useSearchParams } from "next/navigation";
-import { Button } from "components/Button";
 import { PaginationProps } from "./Pagination.types";
+import { PaginationLink } from "./PaginationLink/";
 
-export function Pagination({ currentPage, totalPages }: PaginationProps) {
-  const router = useRouter();
-  const searchParams = useSearchParams();
+export function Pagination({ currentPage, totalPages, searchParams }: PaginationProps) {
+  const createPageUrl = (page: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", page.toString());
 
-  const handlePageChange = async (newPage: number) => {
-    const params = new URLSearchParams(await searchParams.toString());
-    params.set("page", newPage.toString());
-    router.push(`/?${params.toString()}`);
+    return `/?${params.toString()}`;
   };
 
   return (
-    <div className="mt-4 flex items-center justify-between">
-      <Button variant="secondary" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
-        Previous
-      </Button>
-      <span className="text-sm text-gray-700 dark:text-gray-200">
+    <nav className="mt-4 flex items-center justify-between" aria-label="Pagination" role="navigation">
+      <PaginationLink
+        page={currentPage - 1}
+        isDisabled={currentPage === 1}
+        direction="previous"
+        createUrl={createPageUrl}
+      />
+
+      <span className="text-sm text-gray-700 dark:text-gray-200" aria-current="page" aria-live="polite">
         Page {currentPage} of {totalPages}
       </span>
-      <Button
-        variant="secondary"
-        onClick={() => handlePageChange(currentPage + 1)}
-        disabled={currentPage === totalPages}
-      >
-        Next
-      </Button>
-    </div>
+
+      <PaginationLink
+        page={currentPage + 1}
+        isDisabled={currentPage === totalPages}
+        direction="next"
+        createUrl={createPageUrl}
+      />
+    </nav>
   );
 }

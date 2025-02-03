@@ -116,7 +116,7 @@ I implemented basic pagination due to several factors:
 
 2. **API Limitations**
 
-   - GitHub API limits results to 100 pages
+   - Only the first 1000 search results are available
 
 3. **Considered Alternatives**
 
