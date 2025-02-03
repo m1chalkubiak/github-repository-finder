@@ -1,6 +1,6 @@
-import { getRepositories } from "api/repositories";
 import { Pagination } from "components/Pagination/Pagination";
 
+import { getRepositories } from "./actions";
 import { RepositoriesTable } from "./components/RepositoriesTable";
 
 type SearchParams = {

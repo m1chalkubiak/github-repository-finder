@@ -53,7 +53,7 @@ test.describe("GitHub Repository Finder", () => {
   test("display error message when API request fails", async ({ page }) => {
     await page.goto("/?q=react&sort=stars&order=desc&page=101");
 
-    await expect(page.getByText("422 Unprocessable Entity")).toBeVisible();
+    await expect(page.getByText("422 Only the first 1000 search results are available")).toBeVisible();
   });
 
   test("navigates through pages correctly", async ({ page }) => {
