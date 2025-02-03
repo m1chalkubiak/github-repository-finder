@@ -60,7 +60,6 @@ export function RepositoriesTable({ repositories }: RepositoriesTableProps) {
                     className="h-6 w-6 rounded-full"
                     width={24}
                     height={24}
-                    loading="lazy"
                     aria-hidden="true"
                   />
                 </div>
