@@ -3,10 +3,9 @@ import { PaginationLink } from "./PaginationLink/";
 
 export function Pagination({ currentPage, totalPages, searchParams }: PaginationProps) {
   const createPageUrl = (page: number) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("page", page.toString());
+    searchParams.set("page", page.toString());
 
-    return `/?${params.toString()}`;
+    return `/?${searchParams.toString()}`;
   };
 
   return (
