@@ -53,20 +53,41 @@ test.describe("GitHub Repository Finder", () => {
   test("display error message when API request fails", async ({ page }) => {
     await page.goto("/?q=react&sort=stars&order=desc&page=101");
 
-    await expect(page.getByText("422 Unprocessable Entity")).toBeVisible();
+    await expect(page.getByText("422 Only the first 1000 search results are available")).toBeVisible();
   });
 
-  test("handles pagination correctly", async ({ page }) => {
-    await page.getByRole("searchbox").fill("javascript");
-    await page.getByRole("button", { name: /search/i }).click();
+  test("navigates through pages correctly", async ({ page }) => {
+    await page.goto("/?q=react");
 
-    await expect(page.getByRole("button", { name: /previous/i })).toBeDisabled();
-    await expect(page.getByRole("button", { name: /next/i })).toBeEnabled();
+    const prevLink = page.getByRole("link", { name: "Previous" });
+    await expect(prevLink).toHaveAttribute("aria-disabled", "true");
+    await page.getByRole("link", { name: "Go to next page" }).click();
 
-    await page.getByRole("button", { name: /next/i }).click();
+    await expect(page).toHaveURL("/?q=react&page=2");
+    await expect(prevLink).not.toHaveAttribute("aria-disabled", "true");
     await expect(page.getByText("Page 2")).toBeVisible();
-    await expect(page.getByRole("button", { name: /previous/i })).toBeEnabled();
-    await expect(page).toHaveURL(/.*page=2.*/);
+  });
+
+  test("preserves search parameters during navigation", async ({ page }) => {
+    await page.goto("/?q=react&sort=stars&order=desc");
+    await page.getByRole("link", { name: "Go to next page" }).click();
+
+    await expect(page).toHaveURL("/?q=react&sort=stars&order=desc&page=2");
+  });
+
+  test("handles direct navigation to specific pages", async ({ page }) => {
+    await page.goto("/?q=react&page=2");
+
+    await expect(page.getByRole("link", { name: "Previous" })).not.toHaveAttribute("aria-disabled", "true");
+    await expect(page.getByRole("link", { name: "Next" })).not.toHaveAttribute("aria-disabled", "true");
+  });
+
+  test("disables next navigation on page 100", async ({ page }) => {
+    await page.goto("/?q=react&page=100");
+
+    await expect(page.getByRole("link", { name: "Previous" })).not.toHaveAttribute("aria-disabled", "true");
+    await expect(page.getByRole("link", { name: "Next" })).toHaveAttribute("aria-disabled", "true");
+    await expect(page.getByText("Page 100")).toBeVisible();
   });
 
   test("sorts results by stars", async ({ page }) => {
@@ -79,18 +100,6 @@ test.describe("GitHub Repository Finder", () => {
 
     await page.getByRole("button", { name: /sort by stars/i }).click();
     await expect(page).toHaveURL(/.*order=asc.*/);
-  });
-
-  test("preserves search parameters in URL", async ({ page }) => {
-    await page.goto("/?q=vue&sort=stars&order=desc");
-    await expect(page.getByRole("searchbox")).toHaveValue("vue");
-
-    await page.getByRole("button", { name: /next/i }).click();
-
-    await expect(page).toHaveURL(/.*q=vue.*/);
-    await expect(page).toHaveURL(/.*sort=stars.*/);
-    await expect(page).toHaveURL(/.*order=desc.*/);
-    await expect(page).toHaveURL(/.*page=2.*/);
   });
 
   test("reset search parameters in URL", async ({ page }) => {

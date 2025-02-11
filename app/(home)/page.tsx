@@ -1,17 +1,18 @@
-import { getRepositories } from "api/repositories";
 import { Pagination } from "components/Pagination/Pagination";
 
+import { getRepositories } from "./actions";
 import { RepositoriesTable } from "./components/RepositoriesTable";
 
-interface SearchParams {
+type SearchParams = {
   q?: string;
   page?: string;
   sort?: string;
   order?: "asc" | "desc";
-}
+};
 
 export default async function Home({ searchParams }: { searchParams: Promise<SearchParams> }) {
   const params = await searchParams;
+  const urlSearchParams = new URLSearchParams(params);
   const query = params.q || "";
   const page = Number(params.page) || 1;
   const sort = params.sort as "stars" | undefined;
@@ -38,7 +39,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<Sea
             Found {total_count.toLocaleString()} repositories
           </p>
           <RepositoriesTable repositories={repositories} />
-          {total_count > 10 && <Pagination currentPage={page} totalPages={totalPages} />}
+          {total_count > 10 && <Pagination currentPage={page} totalPages={totalPages} searchParams={urlSearchParams} />}
         </>
       )}
     </>

@@ -1,6 +1,6 @@
 import { ButtonProps } from "./Button.types";
 
-export function Button({ className, variant = "primary", ...props }: ButtonProps) {
+export function Button({ className, variant = "primary", type = "button", ...props }: ButtonProps) {
   const commonClasses =
     "cursor-pointer rounded-lg px-4 py-2 text-sm focus:ring-4 disabled:cursor-not-allowed disabled:opacity-50";
   const primaryClasses =
@@ -10,6 +10,7 @@ export function Button({ className, variant = "primary", ...props }: ButtonProps
   return (
     <button
       className={`${commonClasses} ${variant === "secondary" ? secoundaryClasses : primaryClasses} ${className}`}
+      type={type}
       {...props}
     >
       {props.children}

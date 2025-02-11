@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 
 export default function HomeLayout({ children }: { children: React.ReactNode }) {
   return (
-    <main className="container mx-auto px-4 py-8">
+    <>
       <header className="mx-auto max-w-2xl text-center">
         <h1 className="mt-8 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl dark:text-gray-100">
           GitHub Repository Finder
@@ -31,6 +31,6 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
 
         {children}
       </section>
-    </main>
+    </>
   );
 }

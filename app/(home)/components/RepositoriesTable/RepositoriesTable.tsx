@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import { SortableColumnHeader } from "components/SortableColumnHeader";
 
 import { RepositoriesTableProps } from "./RepositoriesTable.types";
@@ -52,7 +54,14 @@ export function RepositoriesTable({ repositories }: RepositoriesTableProps) {
               <td className="px-6 py-4 text-right">
                 <div className="flex items-center justify-end">
                   <span className="mr-2 dark:text-gray-100">{repo.owner.login}</span>
-                  <img src={repo.owner.avatar_url} alt="" className="h-6 w-6 rounded-full" aria-hidden="true" />
+                  <Image
+                    src={repo.owner.avatar_url}
+                    alt={`${repo.owner.login}'s avatar`}
+                    className="h-6 w-6 rounded-full"
+                    width={24}
+                    height={24}
+                    aria-hidden="true"
+                  />
                 </div>
               </td>
               <td className="px-6 py-4 text-right tabular-nums dark:text-gray-100">
