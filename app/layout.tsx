@@ -1,6 +1,6 @@
 import { Metadata } from "next";
-import { DarkModeToggle } from "components/DarkModeToggle";
-import { getDarkModeCookie } from "components/DarkModeToggle/actions";
+import { DarkModeToggle } from "feature/DarkMode";
+import { getDarkModeCookie } from "feature/DarkMode/actions";
 
 import "styles/tailwind.css";
 
@@ -18,7 +18,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const isDarkMode = darkMode?.value === "true";
 
   return (
-    <html lang="en" className={`${isDarkMode ? "dark" : "light"}`}>
+    <html lang="en" className={`${isDarkMode ? "dark" : ""}`}>
       <body className="dark:bg-gray-900">
         <main className="container mx-auto px-4 py-8">
           <section className="flex items-center justify-end">
